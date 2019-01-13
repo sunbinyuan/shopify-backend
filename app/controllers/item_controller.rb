@@ -1,43 +1,52 @@
 class ItemController < ApplicationController
+    skip_before_action :verify_authenticity_token
 
-    def index(show_all = false)
+    def index()
+
+        show_all = params[:show_all] || false
         items = nil
         if show_all
-            items = Item.all.select(:title, :price, :inventory_count, :description, :id)
+            items = Item.all.select(:title, :price, :inventory_count, :description, :item_id)
         else
-            items = Item.where("inventory_count > 0").select(:title, :price, :inventory_count, :description, :id)
+            items = Item.where("inventory_count > 0").select(:title, :price, :inventory_count, :description, :item_id)
         end
 
         render json: items
     end
 
     def show()
+        item_id = params[:item_id]
+        item = Item.select(:title, :price, :inventory_count, :description, :item_id).find_by!({item_id: item_id})
+        render json: item
     end
 
-    def destroy
-        pars =params.require(:id)
-        id = pars[:id]
-        begin
-            item = Item.find(id)
-            item.destroy
-        rescue ActiveRecord::RecordNotFound
-            render json: "Item not found."
-        rescue ActiveRecord::RecordNotDestroyed
-            render json: "An error happened when removing the item."
-        end
-            render json: "Item removed."
+    def update()
+        item_id = params[:item_id]
+
+        item = Item.find_by!({item_id: item_id})
+        pars = params.permit(:title, :price, :inventory_count, :description)
+        item.update!(pars)
+
+        item = Item.select(:title, :price, :inventory_count, :description, :item_id).find(item.id)
+        render json: item
+    end
+
+    def destroy()
+        item_id = params[:item_id]
+
+        item = Item.find_by!({item_id: item_id})
+        item.destroy()
+        render json: {}
     end
 
     def create
-        pars = params.require([:title, :price, :inventory_count]).permits(:description)
-        item = Item.create(pars)
-        begin
-            item = Item.create(pars)
-            item.save
-        rescue ActiveRecord::RecordNotSaved
-            render json: "An error happened when adding the item."
-        end
-    end
+        pars = params.require(:item).permit(:title, :price, :inventory_count, :description)
 
+        item = Item.create!(pars)
+
+        item = Item.select(:title, :price, :inventory_count, :description, :item_id).find(item.id)
+        render json: item
+
+    end
 
 end
