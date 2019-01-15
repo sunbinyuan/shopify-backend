@@ -20,6 +20,13 @@ class Cart < ApplicationRecord
 
     end
 
+    def self.purchase(cart_id)
+
+        cart = self.find_by!({cart_id: cart_id})
+        return cart.purchase()
+
+    end
+
     def purchase()
         cart = self
 
@@ -36,7 +43,7 @@ class Cart < ApplicationRecord
         cart_items.each do |item|
 
             # some payment logic here
-            # maybe transfering cart items to an order
+            # maybe transfering cart items to an order model
             original_item = item.item
             original_item.inventory_count -= item.quantity
             original_item.save
@@ -63,21 +70,19 @@ class Cart < ApplicationRecord
             if item.check_available(cart_item.quantity + 1)
                 cart_item.update({quantity: cart_item.quantity + 1})
             else
-                raise Item::ItemUnavailableException.new(item)
+                raise Item::ItemUnavailableException.new([item])
             end
         end
+        return cart
     end
 
     def self.add_to_cart(cart_id, item_id)
 
-        cart = Cart.find_by({cart_id: cart_id})
+        cart = Cart.find_by!({cart_id: cart_id})
         
-        raise ActiveRecord::RecordNotFound.new(nil, Cart) if cart.nil?
+        item = Item.find_by!({item_id: item_id})
 
-        item = Item.find_by({item_id: item_id})
-        raise ActiveRecord::RecordNotFound.new(nil, Item) if item.nil?
-
-        cart.add_to_cart(item)
+        return cart.add_to_cart(item)
 
     end
 
@@ -85,33 +90,25 @@ class Cart < ApplicationRecord
         raise ActiveRecord::RecordNotFound.new(nil, Item) if item.nil?
 
         cart = self
-        cart_item = self.specific_carts.find_by({item: item})
+        cart_item = self.specific_carts.find_by!({item: item})
 
-        if cart_item.nil?
-            raise ActiveRecord::RecordNotFound.new(nil, SpecificCart) if cart.nil?
+        if (quantity == 0)
+            cart_item.destroy()
         else
-            if (quantity == 0)
-                cart_item.destroy()
+            if item.check_available(quantity)
+                cart_item.update({quantity: quantity})
             else
-                if item.check_available(quantity)
-                    cart_item.update({quantity: quantity})
-                else
-                    raise Item::ItemUnavailableException.new(item)
-                end
+                raise Item::ItemUnavailableException.new([item])
             end
-
         end
-
+        return cart
     end
 
     def self.update_cart_item_quantity(cart_id, item_id, quantity)
 
-        cart = Cart.find_by({cart_id: cart_id})
-        
-        raise ActiveRecord::RecordNotFound.new(nil, Cart) if cart.nil?
+        cart = Cart.find_by!({cart_id: cart_id})
 
-        item = Item.find_by({item_id: item_id})
-        raise ActiveRecord::RecordNotFound.new(nil, Item) if item.nil?
+        item = Item.find_by!({item_id: item_id})
 
         return cart.update_cart_item_quantity(item, quantity)
 
@@ -119,7 +116,12 @@ class Cart < ApplicationRecord
 
     def self.create(attributes = nil)
         attributes = {cart_id: generate_alias}.merge(attributes || {})
-        return super(attributes).save
+        return super(attributes)
+    end
+
+    def self.create!(attributes = nil)
+        attributes = {cart_id: generate_alias}.merge(attributes || {})
+        return super(attributes)
     end
 
     def self.generate_alias
@@ -133,3 +135,5 @@ class Cart < ApplicationRecord
       randalias
     end
 end
+
+

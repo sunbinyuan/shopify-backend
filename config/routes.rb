@@ -11,6 +11,12 @@ Rails.application.routes.draw do
   	end
 
   	scope :cart do
+      get '', to: "cart#show" 
+      post 'new', to: "cart#create"
+      post '', to: "cart#add_to_cart"
+      put '', to: "cart#update_cart_item_quantity"
+      delete '', to: "cart#remove_cart_item"
+      post 'purchase', to: "cart#purchase"
   		
   	end
   end

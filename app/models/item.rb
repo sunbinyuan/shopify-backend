@@ -1,6 +1,6 @@
 class Item < ApplicationRecord
 
-    has_many :specific_carts
+    has_many :specific_carts, dependent: :destroy
     has_many :carts, through: :specific_carts
 
 
@@ -52,11 +52,10 @@ class Item < ApplicationRecord
 
     end
 
-
     class ItemUnavailableException < StandardError
-        attr_reader :items
-        def initialize(items)
-            @items = items
+        attr_reader :data
+        def initialize(data)
+            @data = data
         end
     end
 
