@@ -1,24 +1,40 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Shopify backend challenge
 
-Things you may want to cover:
+## Getting started
 
-* Ruby version
+### Prerequisites
+You must have an installation of `ruby >= 2.2.2` 
 
-* System dependencies
+### Installing
 
-* Configuration
+1. Change directory to the root of the application:
 
-* Database creation
+		$ cd shopify-backend
 
-* Database initialization
+2. Install `bundler` at the command prompt if you haven't yet:
 
-* How to run the test suite
+		$ gem install bundler
 
-* Services (job queues, cache servers, search engines, etc.)
+3. Install all the dependencies :
 
-* Deployment instructions
+		$ bundle install
 
-* ...
+4. Migrate the database:
+		
+		$ rails db:migrate
+
+## Running the server
+
+1. At the root of the application, start the server:
+
+		$ rails server
+
+2. Goto `http://localhost:3000` and you should see the server running with the default rails landing page
+
+3. Follow the API documentation in order to test the different features of the application
+
+## Authors
+
+* **Binyuan Sun** 
