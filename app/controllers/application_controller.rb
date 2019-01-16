@@ -4,6 +4,14 @@ class ApplicationController < ActionController::Base
 	rescue_from ActiveRecord::RecordInvalid, with: :handle_record_invalid
 	rescue_from ActionController::ParameterMissing, with: :handle_parameter_missing
 
+
+	before_action :set_default_response_format
+
+	protected
+
+	def set_default_response_format
+	  request.format = :json
+	end
 	# rescue_from StandardError, :with => :handle_standard_error
 
 	def handle_parameter_missing(error)
