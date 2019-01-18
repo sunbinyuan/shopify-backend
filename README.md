@@ -35,6 +35,10 @@ You must have an installation of `ruby >= 2.2.2`
 
 3. Follow the API documentation in order to test the different features of the application
 
+## Documentation
+
+Visit the [API documentation created with Apiary](https://app.apiary.io/binyuanshopifybackendchallenge)
+
 ## Authors
 
 * **Binyuan Sun** 
