@@ -81,6 +81,6 @@ class CartController < ApplicationController
 			c.slice('title', 'price', 'inventory_count', 'description', 'item_id')
 		end
 
-		render json: {error: "The requested quantity is not available for the current Item", data: items, status: 400}
+		render json: {error: "The requested quantity is not available for the current Item", data: items}, status: 400
 	end
 end
