@@ -39,6 +39,20 @@ You must have an installation of `ruby >= 2.2.2`
 
 Visit the [API documentation created with Apiary](https://app.apiary.io/binyuanshopifybackendchallenge)
 
+## Other thoughts/Improvements
+
+* A User system could be implemented with Cart belonging to user
+
+* Render of JSON can be made more consistent across the Item and Cart controllers
+
+* Access token system can be implemented in order to prevent unauthorized Item modification
+
+* An Order model could be implemented in order to store purchased Items
+
+* A job could be added to purged unused Carts after a interval of time
+
+* Unit tests
+
 ## Authors
 
 * **Binyuan Sun** 
