@@ -45,7 +45,7 @@ Visit the [API documentation created with Apiary](https://app.apiary.io/binyuans
 
 * Render of JSON can be made more consistent across the Item and Cart controllers
 
-* Access token system can be implemented in order to prevent unauthorized Item modification
+* ~~Access token system can be implemented in order to prevent unauthorized Item modification~~
 
 * An Order model could be implemented in order to store purchased Items
 
