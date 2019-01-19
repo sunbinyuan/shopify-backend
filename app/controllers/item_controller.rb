@@ -1,5 +1,6 @@
 class ItemController < ApplicationController
     skip_before_action :verify_authenticity_token
+    before_action :vaidate_access_token, except: [:index, :show]
 
     def index()
 

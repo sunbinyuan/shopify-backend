@@ -1,10 +1,10 @@
+require 'securerandom'
+
 class Cart < ApplicationRecord
     has_many :specific_carts, dependent: :destroy
     has_many :items, through: :specific_carts
 
     validates :cart_id, uniqueness: true
-
-    BASECHARS = [('0'..'9').to_a,('a'..'f').to_a].flatten
 
     def compute_total()
         cart = self
@@ -125,14 +125,7 @@ class Cart < ApplicationRecord
     end
 
     def self.generate_alias
-      unique = false
-      while unique == false
-        randalias = (0...32).map {BASECHARS[rand(16)]}.join
-        if !self.find_by({cart_id: randalias})
-          unique = true
-        end
-      end
-      randalias
+        return SecureRandom.hex()
     end
 end
 
