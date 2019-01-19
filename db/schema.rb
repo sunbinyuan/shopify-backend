@@ -19,19 +19,21 @@ ActiveRecord::Schema.define(version: 2019_01_19_032116) do
   end
 
   create_table "carts", force: :cascade do |t|
-    t.string "cart_id"
+    t.string "cart_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["cart_id"], name: "index_carts_on_cart_id", unique: true
   end
 
   create_table "items", force: :cascade do |t|
-    t.string "title"
-    t.decimal "price"
-    t.bigint "inventory_count"
+    t.string "title", null: false
+    t.decimal "price", null: false
+    t.bigint "inventory_count", null: false
     t.text "description"
-    t.string "alias"
+    t.string "item_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_items_on_item_id", unique: true
   end
 
   create_table "specific_carts", force: :cascade do |t|
