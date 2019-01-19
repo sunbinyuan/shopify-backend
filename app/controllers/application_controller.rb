@@ -1,8 +1,11 @@
 class ApplicationController < ActionController::Base
 
+	include LoginHelper
+
 	rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
 	rescue_from ActiveRecord::RecordInvalid, with: :handle_record_invalid
 	rescue_from ActionController::ParameterMissing, with: :handle_parameter_missing
+	rescue_from AccessToken::InvalidAccessTokenException, with: :handle_invalid_access_token
 
 
 	before_action :set_default_response_format
@@ -34,4 +37,12 @@ class ApplicationController < ActionController::Base
 			error: "An error occurred"
 		}, status: 500
 	end
+
+	def handle_invalid_access_token(error)
+		message = error.to_s
+		render json: {error: message}, status: 401
+	end
+
+
+
 end

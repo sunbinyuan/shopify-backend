@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   scope :api do
 
+    post 'login', to: "login#login"
+    post 'logout', to: "login#logout"
+
   	scope :item do
   		get 'all', to: "item#index"
   		get ':item_id', to: "item#show"

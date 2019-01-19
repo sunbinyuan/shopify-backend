@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_11_033131) do
+ActiveRecord::Schema.define(version: 2019_01_19_032116) do
+
+  create_table "access_tokens", force: :cascade do |t|
+    t.string "access_token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "carts", force: :cascade do |t|
     t.string "cart_id"
@@ -23,10 +29,9 @@ ActiveRecord::Schema.define(version: 2019_01_11_033131) do
     t.decimal "price"
     t.bigint "inventory_count"
     t.text "description"
-    t.string "item_id", null: false
+    t.string "alias"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["item_id"], name: "index_items_on_item_id", unique: true
   end
 
   create_table "specific_carts", force: :cascade do |t|
