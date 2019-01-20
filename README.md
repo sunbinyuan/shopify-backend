@@ -37,7 +37,7 @@ You must have an installation of `ruby >= 2.2.2`
 
 ## Documentation
 
-Visit the [API documentation created with Apiary](https://app.apiary.io/binyuanshopifybackendchallenge)
+Visit the [API documentation created with Apiary](https://binyuanshopifybackendchallenge.docs.apiary.io/).
 
 ## Other thoughts/Improvements
 
